@@ -1,0 +1,36 @@
+services:
+
+  ##########################################################################################
+  # Use Cases
+  ##########################################################################################
+
+  application.use_cases.get_scrape_results:
+    class: application.use_cases.GetScrapeResultsUseCase.GetScrapeResultsUseCase
+    arguments:
+      repository: '@persistence.repositories.scraping_job_repository'
+
+  application.use_cases.start_scraping:
+    class: application.use_cases.StartScrapingUseCase.StartScrapingUseCase
+    arguments:
+      scraper: '@scrapers.selenium'
+      repository: '@persistence.repositories.scraping_job_repository'
+
+  ##########################################################################################
+  # Persistence
+  ##########################################################################################
+
+  persistence.repositories.scraping_job_repository:
+    class: infrastructure.persistence.ScrapingJobRepositoryPostgreSQL.PostgreSQLScrapingJobRepository
+
+  ##########################################################################################
+  # Scrapers
+  ##########################################################################################
+
+  scrapers.selenium:
+    class: infrastructure.scrapers.SeleniumScraper.SeleniumScraper
+
+  scrapers.beautiful_soup:
+    class: infrastructure.scrapers.BeautifulSoupScraper.BeautifulSoupScraper
+
+  scrapers.playwright:
+    class: infrastructure.scrapers.PlaywrightScraper.PlaywrightScraper
