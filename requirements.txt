@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+apscheduler
+requests
+beautifulsoup4
+dotenv
+importlib
