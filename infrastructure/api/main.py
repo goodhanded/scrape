@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from infrastructure.api.routes import scrape_job_routes
+from infrastructure.api.router_factory import RouterFactory
 from infrastructure.logging.logging_config import setup_logging
 from infrastructure.config.services.config import Config
 from infrastructure.di.container import Container
@@ -13,7 +13,11 @@ setup_logging(config.get("LOG_LEVEL", "INFO"))
 container = Container.from_yaml("services.yaml")
 
 app = FastAPI(title="Web Scraper API")
-app.include_router(scrape_job_routes.router)
+
+router_factory: RouterFactory = container.get('router_factory')
+router = router_factory.create()
+
+app.include_router(router)
 
 if __name__ == "__main__":
     import uvicorn
